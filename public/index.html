@@ -8,21 +8,22 @@
 
 <div class="container">
   <h1>Upload Certificate</h1>
-
+<input type="text" id="nameInput" placeholder="Enter Student Name">
+<br><br>
   <input type="file" id="fileInput">
   <br>
   <button onclick="uploadFile()">Upload</button>
 
   <p id="result"></p>
 
-  <a href="verify.html">Go to Verify Page →</a
-<a href="blockchain.html">View Blockchain →</a>>
+ <a href="verify.html">Go to Verify Page →</a><br><br>
+<a href="blockchain.html">View Blockchain →</a
 </div>
 
 <script>
 function uploadFile() {
   const file = document.getElementById('fileInput').files[0];
-
+const name = document.getElementById('nameInput').value;
   if (!file) {
     alert("Please select a file!");
     return;
@@ -30,7 +31,7 @@ function uploadFile() {
 
   const formData = new FormData();
   formData.append('file', file);
-
+formData.append('name', name);
   fetch('/upload', {
     method: 'POST',
     body: formData

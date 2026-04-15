@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const crypto = require('crypto');
+const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
 
@@ -49,8 +50,18 @@ app.post('/upload', upload.single('file'), (req, res) => {
     filename: req.file.originalname,
     hash: hash
   });
-
-  res.json({ message: "Certificate Stored!", hash });
+blockchain.addBlock({
+  filename: req.file.originalname,
+  name: req.body.name,
+  hash: hash
+});
+  QRCode.toDataURL(hash, (err, url) => {
+  res.json({
+    message: "Certificate Stored!",
+    hash: hash,
+    qr: url
+  });
+});
 });
 
 // verify certificate
