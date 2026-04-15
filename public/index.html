@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Certificate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Upload Certificate</h1>
+
+  <input type="file" id="fileInput">
+  <br>
+  <button onclick="uploadFile()">Upload</button>
+
+  <p id="result"></p>
+
+  <a href="verify.html">Go to Verify Page →</a>
+</div>
+
+<script>
+function uploadFile() {
+  const file = document.getElementById('fileInput').files[0];
+
+  if (!file) {
+    alert("Please select a file!");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  fetch('/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('result').innerText =
+      data.message + "\nHash: " + data.hash;
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Upload failed");
+  });
+}
+</script>
+
+</body>
+</html>

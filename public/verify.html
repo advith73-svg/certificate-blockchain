@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verify Certificate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Verify Certificate</h1>
+
+  <input type="file" id="fileInput">
+  <br>
+  <button onclick="verifyFile()">Verify</button>
+
+  <p id="result"></p>
+
+  <a href="index.html">← Back to Upload</a>
+</div>
+
+<script>
+function verifyFile() {
+  const file = document.getElementById('fileInput').files[0];
+
+  if (!file) {
+    alert("Please select a file!");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  fetch('/verify', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('result').innerText = data.message;
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Verification failed");
+  });
+}
+</script>
+
+</body>
+</html>
