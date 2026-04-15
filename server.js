@@ -65,7 +65,9 @@ app.post('/verify', upload.single('file'), (req, res) => {
     res.json({ valid: false, message: "Certificate is FAKE ❌" });
   }
 });
-
+app.get('/blocks', (req, res) => {
+  res.json(blockchain.chain);
+});
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
